@@ -27,12 +27,24 @@ struct switch_obj
   int bit_position;
 };
 
-/*
- * Serial protocol(based on OPP from MPF)
- */
+/* Serial Protocol */
 
-#define GET_SER_NUM_CMD b'\x00'
-#define RESET_CMD b'\x04'
+/* READ_BANK_CMD - read one bank(8 bits) from the OPPA board */
+/* 1 byte argument - ID of bank to read                      */
+#define READ_BANK_CMD  b'\x01'
+
+/* GET_BANK_CFG_CMD - Read number of banks connected to controller */
+#define READ_BANK_CFG_CMD  b'\x02'
+
+/* GI_BANK_LIGHT_CMD - Light a whole GI bank */
+#define GI_BANK_LIGHT_CMD  b'\x01'
+
+/* READ_BANK_CMD - read one bank(8 bits) from the OPPA board */
+#define GI_BANK_BLINK_CMD  b'\x01'
+
+/* RESET_CMD - Clears OPPA switch states and stops all LED and solenoid activity except for GI */
+#define RESET_CMD  b'\x04'
+
 
  
 /* GET_SER_NUM_CMD = b'\x00'
