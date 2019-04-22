@@ -6,6 +6,12 @@ struct switch_obj switches[20];
 void setup() {
   // put your setup code here, to run once:
   // test
+
+  // Setup Serial to Main Controller
+
+  // Load configuration from SD Card
+
+  
 }
 
 void loop() {
