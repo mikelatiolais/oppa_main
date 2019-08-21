@@ -25,7 +25,15 @@ struct switch_obj
   struct OPPA_IO *card;
   int bank;
   int bit_position;
+  int auto_fire_id;
 };
+
+struct io_bank
+{
+  int card_address;
+  int bank;
+  
+}
 
 /* Serial Protocol */
 
