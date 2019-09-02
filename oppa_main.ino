@@ -1,8 +1,18 @@
-#include "oppa.h"
+#include <QueueArray.h>
 #include <i2c_t3.h>
+#include "oppa.h"
 
+// Globals set up in SD card config
 struct OPPA_IN cards[8];
-struct switch_obj switches[20];
+struct switch_obj switches[256];
+
+// These values need to be reset by the SD configuration
+byte number_of_switches = 0;
+byte number_of_solenoids = 0;
+
+byte hardware_type = 0x00;
+byte firmware_version = 0x00;
+
 
 // Used to enable/disable ALL solenoids
 // For example, when the coin door is open 
@@ -11,6 +21,8 @@ bool solenoids_enabled = false;
 // Used to enable/disable the flippers
 bool flippers_enabled = false;
 
+// create a queue of strings
+QueueArray <String> switch_queue;
 
 void setup() {
   // Setup Serial to Main Controller
@@ -22,12 +34,31 @@ void setup() {
 }
 
 void loop() {
-  // Check for pending mesages from MPF
-  if(Serial.available()) {
+  byte incoming_byte;
+  // Check for pending messages from MPF
+  while(Serial.available()) {
     // Read input and process
+    incoming_byte = Serial.read();
+    switch(incoming_byte) {
+      case GET_CONNECTED_HARDWARE:
+        // Return 
+        Serial.print(hardware_type);
+        break; 
+      case GET_FIRMWARE_VERSION:
+        Serial.print(firmware_version);
+        break;
+      case GET_SIMPLE_LAMP_COUNT:
+        // Do something
+        break;
+      case GET_SOLENOID_COUNT:
+        Serial.print(number_of_solenoids);
+        break;
+      case GET_SWITCH_COUNT:
+        Serial.print(number_of_switches);
+        break;
+        
+    }
     
-    // If it is a solenoid pulse, fire the solenoid
-    // If it is a light command, change the LED state
   }
 
   // Loop through input cards and poll each one 

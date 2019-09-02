@@ -49,72 +49,72 @@ struct oppa_lamp
  * 0x00 - OPPA Teensy v1
  * 0x01 - OPPA Mega v1 
  */
-#define GET_CONNECTED_HARDWARE b'\x00'
+#define GET_CONNECTED_HARDWARE 0x00
 
 /* GET_FIRMWARE_VERSION - return 1 byte showing firmware version as defined below 
  * 0x00 - v0.1 
  */
-#define GET_FIRMWARE_VERSION  b'\x01'
+#define GET_FIRMWARE_VERSION  0x01
 
 /* GET_API_VERSION - return 1 byte showing API version as defined below
  * 0x00 - v0.1
  * I don't actually expect to use this much
  */
-#define GET_API_VERSION  b'\x02'
+#define GET_API_VERSION  0x02
 
 /* GET_SIMPLE_LAMP_COUNT - returns 1 byte for number of simple lamps */
-#define GET_SIMPLE_LAMP_COUNT  b'\x03'
+#define GET_SIMPLE_LAMP_COUNT  0x03
 
 /* GET_SOLENOID_COUNT - returns 1 byte for number of solenoids */
-#define GET_SOLENOID_COUNT  b'\x04'
+#define GET_SOLENOID_COUNT  0x04
 
 /* GET_SOUND_COUNT - returns 1 byte for umber of sounds - UNUSED */
-#define GET_SOUND_COUNT  b'\x05'
+#define GET_SOUND_COUNT  0x05
 
 /* GET_SEGMENT_DISPLAY_COUNT - returns 1 byte */
-#define GET_SEGMENT_DISPLAY_COUNT  b'\x06'
+#define GET_SEGMENT_DISPLAY_COUNT  0x06
 
 /* GET_SEGMENT_DISPLAY_DETAILS - payload of 1 byte, returns 2 bytes */
-#define GET_SEGMENT_DISPLAY_DETAILS  b'\x07'
+#define GET_SEGMENT_DISPLAY_DETAILS  0x07
 
 /* GET_GAME_INFO - returns 1 byte */
-#define GET_GAME_INFO  b'\x08'
+#define GET_GAME_INFO  0x08
 
 /* GET_SWITCH_COUNT - returns 1 byte */
-#define GET_SWITCH_COUNT  b'\x09'
+#define GET_SWITCH_COUNT  0x09
 
 /* GET_STATUS_OF_SIMPLE_LAMP - returns 1 byte */
-#define GET_STATUS_OF_SIMPLE_LAMP  b'\x0A'
+#define GET_STATUS_OF_SIMPLE_LAMP  0x0A
 
 /* SET_SIMPLE_LAMP_TO_ON - no return */
-#define SET_SIMPLE_LAMP_TO_ON  b'\x0B'
+#define SET_SIMPLE_LAMP_TO_ON  0x0B
 
 /* SET_SIMPLE_LAMP_TO_OFF - no return */
-#define SET_SIMPLE_LAMP_TO_OFF  b'\x0C'
+#define SET_SIMPLE_LAMP_TO_OFF  0x0C
 
 /* GET_STATUS_OF_SOLENOID - returns 1 byte */
-#define GET_STATUS_OF_SOLENOID  b'\x14'
+#define GET_STATUS_OF_SOLENOID  0x14
 
 /* ENABLE_SOLENOID_FULL_POWER - no return */
-#define ENABLE_SOLENOID_FULL_POWER  b'\x15'
+#define ENABLE_SOLENOID_FULL_POWER  0x15
 
 /* DISABLE_SOLENOID - no return */
-#define DISABLE_SOLENOID  b'\x16'
+#define DISABLE_SOLENOID  0x16
 
 /* PULSE_SOLENOID - no return */
-#define PULSE_SOLENOID  b'\x17'
+#define PULSE_SOLENOID  0x17
 
 /* SET_SOLENOID_PULSE_TIME - no return */
-#define SET_SOLENOID_PULSE_TIME  b'\x18'
+#define SET_SOLENOID_PULSE_TIME  0x18
 
 /* SET_SEGMENT_DISPLAY - UNUSED */
-#define SET_SEGMENT_DISPLAY  b'\x1E'
+#define SET_SEGMENT_DISPLAY  0x1E
 
 /* GET_SWITCH_STATUS - returns 1 byte */
-#define GET_SWITCH_STATUS  b'\x28'
+#define GET_SWITCH_STATUS  0x28
 
 /* NOTHING */
-#define NOTHING  b'\x29'
+#define NOTHING  0x29
 
 
 
