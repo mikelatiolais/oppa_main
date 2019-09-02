@@ -1,13 +1,10 @@
 #include "oppa.h"
-#include <Serial.h>
+#include <i2c_t3.h>
 
 struct OPPA_IN cards[8];
 struct switch_obj switches[20];
 
 void setup() {
-  // put your setup code here, to run once:
-  // test
-
   // Setup Serial to Main Controller
   Serial.begin(9600); //this is wrong FIXME
 
@@ -36,3 +33,29 @@ void loop() {
   
   }
 }
+
+byte read_bank() {
+  byte value = 0;
+
+  return value;
+}
+
+void write_bank() {
+  
+}
+
+void update_lamps(byte string, int lamp_id) {
+  
+}
+
+void activate_output(byte card, byte bank, byte output) {
+  
+}
+
+void queue_event() {
+  
+}
+
+
+
+

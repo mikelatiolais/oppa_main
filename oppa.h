@@ -30,10 +30,16 @@ struct switch_obj
 
 struct io_bank
 {
-  int card_address;
+  byte card_address;
   int bank;
   
-}
+};
+
+struct oppa_lamp
+{
+  int lamp_id;
+  byte string_id;
+};
 
 /* Serial Protocol */
 
