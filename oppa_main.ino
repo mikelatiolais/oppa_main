@@ -4,6 +4,14 @@
 struct OPPA_IN cards[8];
 struct switch_obj switches[20];
 
+// Used to enable/disable ALL solenoids
+// For example, when the coin door is open 
+bool solenoids_enabled = false;
+
+// Used to enable/disable the flippers
+bool flippers_enabled = false;
+
+
 void setup() {
   // Setup Serial to Main Controller
   Serial.begin(9600); //this is wrong FIXME
@@ -17,6 +25,7 @@ void loop() {
   // Check for pending mesages from MPF
   if(Serial.available()) {
     // Read input and process
+    
     // If it is a solenoid pulse, fire the solenoid
     // If it is a light command, change the LED state
   }
@@ -28,13 +37,10 @@ void loop() {
   // Loop through LEDs. Set the expired ones to dark. 
   
 
-  // Update Master with events
-  if(Serial.availableForWrite()) {
   
-  }
 }
 
-byte read_bank() {
+byte process_bank() {
   byte value = 0;
 
   return value;
@@ -56,6 +62,9 @@ void queue_event() {
   
 }
 
+void process_event() {
+  
+}
 
 
 
