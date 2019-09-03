@@ -35,6 +35,7 @@ void setup() {
 
 void loop() {
   byte incoming_byte;
+  byte payload;
   // Check for pending messages from MPF
   while(Serial.available()) {
     // Read input and process
@@ -56,7 +57,36 @@ void loop() {
       case GET_SWITCH_COUNT:
         Serial.print(number_of_switches);
         break;
-        
+      case GET_STATUS_OF_SIMPLE_LAMP:
+        // Do something
+        break;
+      case SET_SIMPLE_LAMP_TO_ON:
+        // Do something
+        break;
+      case SET_SIMPLE_LAMP_TO_OFF:
+        // Do something
+        break;
+      case GET_STATUS_OF_SOLENOID:
+        // Do something
+        break;
+      case ENABLE_SOLENOID_FULL_POWER:
+        // Do something
+        break;
+      case DISABLE_SOLENOID:
+        // Do something
+        break;
+      case PULSE_SOLENOID:
+        // Do something
+        break;
+      case SET_SOLENOID_PULSE_TIME:
+        // Do something
+        break;
+      case GET_SWITCH_STATUS:
+        // Get payload
+        payload = Serial.read();
+        Serial.print(switches[payload].current_val);
+        break; 
+          
     }
     
   }
@@ -81,7 +111,7 @@ void write_bank() {
   
 }
 
-void update_lamps(byte string, int lamp_id) {
+void update_lamps(byte string, byte lamp_id) {
   
 }
 

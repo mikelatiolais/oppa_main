@@ -11,33 +11,33 @@ struct OPPA_IN
 
 struct OPPA_OUT
 {
-  int address;
-  int i2c_bus;
-  int banka;
-  int bankb;
+  byte address;
+  byte i2c_bus;
+  byte banka;
+  byte bankb;
 };
 
 struct switch_obj
 {
-  int current_val;
-  int changing;
+  byte current_val;
+  bool changing;
   unsigned long last_change;
   struct OPPA_IO *card;
-  int bank;
-  int bit_position;
-  int auto_fire_id;
+  byte bank;
+  byte bit_position;
+  byte auto_fire_id;
 };
 
 struct io_bank
 {
   byte card_address;
-  int bank;
+  byte bank;
   
 };
 
 struct oppa_lamp
 {
-  int lamp_id;
+  byte lamp_id;
   byte string_id;
 };
 
@@ -113,8 +113,8 @@ struct oppa_lamp
 /* GET_SWITCH_STATUS - returns 1 byte */
 #define GET_SWITCH_STATUS  0x28
 
-/* NOTHING */
-#define NOTHING  0x29
+/* GET_CHANGED_SWITCHES - who knows? */
+#define GET_CHANGED_SWITCHES  0x29
 
 
 
