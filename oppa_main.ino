@@ -3,8 +3,10 @@
 #include "oppa.h"
 
 // Globals set up in SD card config
-struct OPPA_IN cards[8];
+struct OPPA_IO in_cards[24];
+struct OPPA_IO out_cards[24];
 struct switch_obj switches[256];
+struct solenoid_obj solenoids[256];
 
 // These values need to be reset by the SD configuration
 byte number_of_switches = 0;
@@ -53,6 +55,7 @@ void loop() {
         break;
       case GET_SIMPLE_LAMP_COUNT:
         // Do something
+        Serial.print(number_of_simple_lamps);
         break;
       case GET_SOLENOID_COUNT:
         Serial.print(number_of_solenoids);
@@ -101,7 +104,8 @@ void loop() {
     
   }
 
-  // Loop through input cards and poll each one 
+  // Loop through input cards and poll each one
+   
   // Each switch will have an ID. It includes an int indicating that it is an autofire or not.
   // Loop through switches, checking for debounced changes
   // If it's an autofire, immediately fire the associated solenoid(s)

@@ -1,12 +1,11 @@
 #include <i2c_t3.h>
 
-struct OPPA_IN
+struct OPPA_IO
 {
-  int address;
-  int i2c_bus;
-  int banka;
-  int bankb;
-  int input;
+  byte address;
+  byte i2c_bus;
+  byte banka;
+  byte bankb;
 };
 
 struct OPPA_OUT
@@ -17,15 +16,42 @@ struct OPPA_OUT
   byte bankb;
 };
 
+/* 
+ *  The new switch numbering scheme
+ *  IO cards are setup in an array
+ *  So, card 0 has switches 0 - 15
+ *  card 1 has switches 16 - 31
+ *  etc
+ *  card indexes are based on 16(0, 15, 31, 47...)
+ *  Each card has 2 banks of 8 bits, so reading bank a is 0-7, bank b is 8-15 
+ *  This means the bank index is either 0 or 8
+ *  Thus, any switch can be defined by card array index + bank index + position 
+ *  switch_obj[0] would be card 0, bank a, position 0
+ *  switch_obj[1] would be card 0, bank a, position 1
+ *  etc
+ *  
+ */
 struct switch_obj
 {
   byte current_val;
-  bool changing;
+  bool changed;
   unsigned long last_change;
-  struct OPPA_IO *card;
-  byte bank;
-  byte bit_position;
   byte auto_fire_id;
+};
+
+/*
+ * The new solenoid scheme
+ * Output cards are stored in an array
+ * So, solenoid 0 can be defined as card 0, bank 0, position 0
+ * card index = array index * 16
+ * bank index = |bank a = 0: bank b = 8| 
+ * 
+ */
+struct solenoid_obj
+{
+  byte current_val;
+  bool is_firing;
+  unsigned long firing_timestamp;
 };
 
 struct io_bank
@@ -35,10 +61,17 @@ struct io_bank
   
 };
 
+struct simple_lamp 
+{
+  byte lamp_id;
+  bool currently_on;
+};
+
 struct oppa_lamp
 {
   byte lamp_id;
   byte string_id;
+  byte current_state;
 };
 
 /* Serial Protocol */
