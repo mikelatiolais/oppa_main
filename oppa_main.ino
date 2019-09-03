@@ -96,6 +96,7 @@ void loop() {
       case WATCHDOG:
         // Reset watchdog_timer
         watchdog_timer = millis(); 
+        break;
     }
     
   }
