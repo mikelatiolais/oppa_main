@@ -34,7 +34,7 @@ void setup() {
   Serial.begin(9600); //this is wrong FIXME
 
   // Load configuration from SD Card
-
+  
   
 }
 
@@ -47,14 +47,12 @@ void loop() {
     incoming_byte = Serial.read();
     switch(incoming_byte) {
       case GET_CONNECTED_HARDWARE:
-        // Return 
         Serial.print(hardware_type);
         break; 
       case GET_FIRMWARE_VERSION:
         Serial.print(firmware_version);
         break;
       case GET_SIMPLE_LAMP_COUNT:
-        // Do something
         Serial.print(number_of_simple_lamps);
         break;
       case GET_SOLENOID_COUNT:
@@ -77,9 +75,13 @@ void loop() {
         break;
       case ENABLE_SOLENOID_FULL_POWER:
         // Do something
+        payload = Serial.read();
+        solenoids[payload].enabled = true;
         break;
       case DISABLE_SOLENOID:
         // Do something
+        payload = Serial.read();
+        solenoids[payload].enabled = false;
         break;
       case PULSE_SOLENOID:
         // Do something

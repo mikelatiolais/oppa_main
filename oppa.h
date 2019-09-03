@@ -52,6 +52,7 @@ struct solenoid_obj
   byte current_val;
   bool is_firing;
   unsigned long firing_timestamp;
+  bool enabled;
 };
 
 struct io_bank
