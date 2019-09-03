@@ -116,6 +116,15 @@ struct oppa_lamp
 /* GET_CHANGED_SWITCHES - who knows? */
 #define GET_CHANGED_SWITCHES  0x29
 
+/* INIT_RESET - reset and initialize the platform */
+#define INIT_RESET  0x64
+
+/* WATCHDOG - disable all solenoids and lights if the watchdog is not sent at within 1 second */
+#define WATCHDOG  0x65
+
+/* GET_RGB_LAMP_COUNT - returns count of RCG lamps */
+#define GET_RGB_LAMP_COUNT  0x13
+
 
 
 /* GET_SER_NUM_CMD = b'\x00'

@@ -9,9 +9,12 @@ struct switch_obj switches[256];
 // These values need to be reset by the SD configuration
 byte number_of_switches = 0;
 byte number_of_solenoids = 0;
+byte number_of_simple_lamps = 0;
+byte number_of_rgb_lamps = 0;
 
 byte hardware_type = 0x00;
 byte firmware_version = 0x00;
+unsigned long watchdog_timer;
 
 
 // Used to enable/disable ALL solenoids
@@ -86,7 +89,13 @@ void loop() {
         payload = Serial.read();
         Serial.print(switches[payload].current_val);
         break; 
-          
+      case INIT_RESET:
+        // Initialize/Reset board
+        reset_board();
+        break;
+      case WATCHDOG:
+        // Reset watchdog_timer
+        watchdog_timer = millis(); 
     }
     
   }
@@ -97,7 +106,10 @@ void loop() {
   // If it's an autofire, immediately fire the associated solenoid(s)
   // Loop through LEDs. Set the expired ones to dark. 
   
-
+  // Check watchdog_timer. If it is over 1 second, reset the board
+  if(millis() - watchdog_timer > 1000) {
+    reset_board();
+  }
   
 }
 
@@ -127,5 +139,16 @@ void process_event() {
   
 }
 
+// Reset the board
+void reset_board() {
+  // Turn off all solenoids
+  // Turn off all simple lamps
+  // Turn off all RGB lamps
+  // Reset all switch states to 0
+
+  // Set watchdog_timer to zero
+  // This will cause a continuous reset until a watchdog command is issued again
+  watchdog_timer = 0;
+}
 
 
