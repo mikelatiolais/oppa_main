@@ -10,6 +10,8 @@ struct OPPA_IO in_cards[24];
 struct OPPA_IO out_cards[24];
 struct switch_obj switches[256];
 struct solenoid_obj solenoids[256];
+struct simple_lamp_obj simple_lamps[256];
+struct oppa_lamp_obj oppa_lamps[256];
 
 // These values need to be reset by the SD configuration
 byte number_of_switches = 0;
@@ -73,15 +75,27 @@ void loop() {
         break;
       case GET_STATUS_OF_SIMPLE_LAMP:
         // Do something
+        payload = Serial.read();
+        Serial.print(simple_lamps[payload]);
         break;
       case SET_SIMPLE_LAMP_TO_ON:
         // Do something
+        payload = Serial.read();
+        simple_lamps[payload] = true;
         break;
       case SET_SIMPLE_LAMP_TO_OFF:
         // Do something
+        payload = Serial.read();
+        simple_lamps[payload] = false;
         break;
       case GET_STATUS_OF_SOLENOID:
         // Do something
+        payload = Serial.read();
+        if(solenoids[payload]) {
+          Serial.print(0x01);
+        } else {
+          Serial.print(0x00);
+        } 
         break;
       case ENABLE_SOLENOID_FULL_POWER:
         // Do something

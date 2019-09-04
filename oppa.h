@@ -62,13 +62,13 @@ struct io_bank
   
 };
 
-struct simple_lamp 
+struct simple_lamp_obj
 {
   byte lamp_id;
-  bool currently_on;
+  bool lit;
 };
 
-struct oppa_lamp
+struct oppa_lamp_obj
 {
   byte lamp_id;
   byte string_id;
