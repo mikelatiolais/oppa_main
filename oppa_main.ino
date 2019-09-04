@@ -1,6 +1,9 @@
+#include <SD.h>
+#include <SD_t3.h>
 #include <QueueArray.h>
 #include <i2c_t3.h>
 #include "oppa.h"
+#include <WS2812Serial.h>
 
 // Globals set up in SD card config
 struct OPPA_IO in_cards[24];
@@ -29,12 +32,19 @@ bool flippers_enabled = false;
 // create a queue of strings
 QueueArray <String> switch_queue;
 
+// Config file
+File myConfig;
+const int chipSelect = BUILTIN_SDCARD;
+
 void setup() {
   // Setup Serial to Main Controller
   Serial.begin(9600); //this is wrong FIXME
 
   // Load configuration from SD Card
-  
+  myConfig = SD.open("config");
+  if(myConfig) {
+    
+  }
   
 }
 
