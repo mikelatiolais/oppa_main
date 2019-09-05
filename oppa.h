@@ -53,6 +53,7 @@ struct solenoid_obj
   bool is_firing;
   unsigned long firing_timestamp;
   bool enabled;
+  bool long_firing;
 };
 
 struct io_bank
@@ -65,6 +66,8 @@ struct io_bank
 struct simple_lamp_obj
 {
   byte lamp_id;
+  unsigned long lighting_timestamp;
+  bool pulse;
   bool lit;
 };
 
@@ -72,7 +75,9 @@ struct oppa_lamp_obj
 {
   byte lamp_id;
   byte string_id;
+  bool pulse;
   byte current_state;
+  unsigned long lighting_timestamp;
 };
 
 /* Serial Protocol */
@@ -158,6 +163,9 @@ struct oppa_lamp_obj
 
 /* GET_RGB_LAMP_COUNT - returns count of RCG lamps */
 #define GET_RGB_LAMP_COUNT  0x13
+
+/* COMMAND_PREFIX - The prefix that determines that the next byte is a command */
+#define COMMAND_PREFIX  0x7E
 
 
 
