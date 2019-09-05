@@ -57,6 +57,14 @@ void loop() {
   while(Serial.available()) {
     // Read input and process
     incoming_byte = Serial.read();
+    // ~ or 0x7E is the command prefix
+    // If a byte is waiting and it's not the command prefix, then it's junk. Toss it and try again.
+    if(incoming_byte == 0x7E) {
+      continue;
+    } else {
+      // Grab the next byte, which should be valid
+      incoming_byte = Serial.read();
+    }
     switch(incoming_byte) {
       case GET_CONNECTED_HARDWARE:
         Serial.print(hardware_type);
@@ -76,22 +84,26 @@ void loop() {
       case GET_STATUS_OF_SIMPLE_LAMP:
         // Do something
         payload = Serial.read();
-        Serial.print(simple_lamps[payload]);
+        if(simple_lamps[payload].lit) {
+          Serial.print(0x01);
+        } else {
+          Serial.print(0x00);
+        }
         break;
       case SET_SIMPLE_LAMP_TO_ON:
         // Do something
         payload = Serial.read();
-        simple_lamps[payload] = true;
+        simple_lamps[payload].lit = true;
         break;
       case SET_SIMPLE_LAMP_TO_OFF:
         // Do something
         payload = Serial.read();
-        simple_lamps[payload] = false;
+        simple_lamps[payload].lit = false;
         break;
       case GET_STATUS_OF_SOLENOID:
         // Do something
         payload = Serial.read();
-        if(solenoids[payload]) {
+        if(solenoids[payload].is_firing) {
           Serial.print(0x01);
         } else {
           Serial.print(0x00);
@@ -136,6 +148,7 @@ void loop() {
   // Loop through switches, checking for debounced changes
   // If it's an autofire, immediately fire the associated solenoid(s)
   // Loop through LEDs. Set the expired ones to dark. 
+  
   
   // Check watchdog_timer. If it is over 1 second, reset the board
   if(millis() - watchdog_timer > 1000) {
