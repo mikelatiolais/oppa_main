@@ -20,6 +20,8 @@ byte number_of_simple_lamps;
 byte number_of_rgb_lamps;
 byte number_of_in_cards;
 byte number_of_out_cards;
+// headless will default to 0(controlled by MPF or pinmame), 1 means it just runs with no serial for testing switches/solenoids
+byte headless = 0;
 
 // The default time that a solenoid is activated
 unsigned long solenoid_pulse_time;
@@ -139,15 +141,18 @@ void loop() {
         break;
       case PULSE_RGB_LAMP:
         // Do something
+        byte color;
         payload = Serial.read();
-        oppa_lamps[payload].lighting_timestamp = current_time;
+        // FIXME - this needs to read in 4 bytes for the color
+        color = Serial.read();
+        oppa_lamps[payload].lighting_timestamp = millis();
         oppa_lamps[payload].pulse = true;
         break;
       case PULSE_SIMPLE_LAMP:
         // Do something
         payload = Serial.read();
-        oppa_lamps[payload].lighting_timestamp = current_time;
-        oppa_lamps[payload].pulse = true;
+        simple_lamps[payload].lighting_timestamp = millis();
+        simple_lamps[payload].pulse = true;
         break;
       case SET_SOLENOID_PULSE_TIME:
         // How many milliseconds should the pulse time be?

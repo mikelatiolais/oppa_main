@@ -36,6 +36,7 @@ struct switch_obj
   byte current_val;
   bool changed;
   unsigned long last_change;
+  /* auto_fire_id is the ID of the solenoid which is auto fired when this switch is activated */
   byte auto_fire_id;
 };
 
@@ -54,6 +55,7 @@ struct solenoid_obj
   unsigned long firing_timestamp;
   bool enabled;
   bool long_firing;
+  bool pulse;
 };
 
 struct io_bank
@@ -143,6 +145,12 @@ struct oppa_lamp_obj
 /* PULSE_SOLENOID - no return */
 #define PULSE_SOLENOID  0x17
 
+/* PULSE_RGB_LAMP - no return */
+#define PULSE_RGB_LAMP  0x0D
+
+/* PULSE_SIMPLE_LAMP - no return */
+#define PULSE_SIMPLE_LAMP  0x0E
+
 /* SET_SOLENOID_PULSE_TIME - no return */
 #define SET_SOLENOID_PULSE_TIME  0x18
 
@@ -166,6 +174,25 @@ struct oppa_lamp_obj
 
 /* COMMAND_PREFIX - The prefix that determines that the next byte is a command */
 #define COMMAND_PREFIX  0x7E
+
+/* SD Card Format 
+ *  
+ *  [HEADER]
+ *  <COMMA DELIMITED ROW 1>
+ *  
+ *  Actual data example
+ *  INPUT
+ *  0,0   (switch #, autofire_id)
+ *  1,0
+ *  2,0
+ *  3,1
+ *  SOLENOIDS
+ *  0,0  (solenoid #, long firing)
+ *  RGB_LAMP
+ *  64   (Just the number of lamps)
+ *  HEADLESS
+ *  1    (headless mode means no MPF controller. Set for testing)
+ */
 
 
 
