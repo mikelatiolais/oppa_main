@@ -78,7 +78,7 @@ struct oppa_lamp_obj
   byte lamp_id;
   byte string_id;
   bool pulse;
-  byte current_state;
+  int current_state;
   unsigned long lighting_timestamp;
 };
 
@@ -145,7 +145,7 @@ struct oppa_lamp_obj
 /* PULSE_SOLENOID - no return */
 #define PULSE_SOLENOID  0x17
 
-/* PULSE_RGB_LAMP - no return */
+/* PULSE_RGB_LAMP - no return, followed by int for color */
 #define PULSE_RGB_LAMP  0x0D
 
 /* PULSE_SIMPLE_LAMP - no return */
@@ -156,6 +156,9 @@ struct oppa_lamp_obj
 
 /* SET_SEGMENT_DISPLAY - UNUSED */
 #define SET_SEGMENT_DISPLAY  0x1E
+
+/* SET_RGB_LAMP - no return, followed by int for color */
+#define SET_RGB_LAMP  0x0F
 
 /* GET_SWITCH_STATUS - returns 1 byte */
 #define GET_SWITCH_STATUS  0x28

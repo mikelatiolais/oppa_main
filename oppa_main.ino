@@ -143,10 +143,21 @@ void loop() {
         // Do something
         byte color;
         payload = Serial.read();
-        // FIXME - this needs to read in 4 bytes for the color
-        color = Serial.read();
+        // Read in int for the color
+        color = Serial.parseint();
         oppa_lamps[payload].lighting_timestamp = millis();
         oppa_lamps[payload].pulse = true;
+        oppa_lamps[payload].current_state = color;
+        break;
+      case SET_RGB_LAMP:
+        // Do something
+        byte color;
+        payload = Serial.read();
+        // Read in int for the color
+        color = Serial.parseint();
+        oppa_lamps[payload].lighting_timestamp = millis();
+        oppa_lamps[payload].pulse = false;
+        oppa_lamps[payload].current_state = color;
         break;
       case PULSE_SIMPLE_LAMP:
         // Do something
@@ -179,6 +190,8 @@ void loop() {
   // Loop through input cards and poll each one
   for(byte i = 0; i < number_of_in_cards; i++) {
     // in_cards[i];
+    // Get address
+    
   }
    
   // Each switch will have an ID. It includes an int indicating that it is an autofire or not.
@@ -187,7 +200,7 @@ void loop() {
 
   // Loop through LEDs. Set the expired ones to dark. 
   for(byte i = 0; i < number_of_simple_lamps; i++) {
-       
+    
   }
   
   
