@@ -189,8 +189,8 @@ void loop() {
 
   // Loop through input cards and poll each one
   for(byte i = 0; i < number_of_in_cards; i++) {
-    // in_cards[i];
     // Get address
+    //in_cards[i].address;
     
   }
    

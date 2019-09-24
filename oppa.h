@@ -3,6 +3,7 @@
 struct OPPA_IO
 {
   byte address;
+  // i2c_bus will be either 0,1 or 2 -- corresponds to Wire0, Wire1, Wire2
   byte i2c_bus;
   byte banka;
   byte bankb;
