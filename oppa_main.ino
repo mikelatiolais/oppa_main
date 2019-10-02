@@ -49,6 +49,17 @@ QueueArray <String> switch_queue;
 // Config file
 File myConfig;
 const int chipSelect = BUILTIN_SDCARD;
+String fileLine;
+
+// RGB LED Control
+// FIXME - Rewrite to be allocated at runtime. 
+const int numled = 64;
+const int pin = 1;
+byte drawingMemory[numled*3];         //  3 bytes per LED
+DMAMEM byte displayMemory[numled*12]; // 12 bytes per LED
+
+WS2812Serial leds(numled, displayMemory, drawingMemory, pin, WS2812_GRB);
+
 
 void setup() {
   // Setup Serial to Main Controller
@@ -57,7 +68,13 @@ void setup() {
   // Load configuration from SD Card
   myConfig = SD.open("config");
   if(myConfig) {
-     
+    int i = 0;
+    while(myConfig.available()) {
+      byte lineChar = myConfig.read();
+      if(lineChar != '\n') {
+        fileLine[i] = myConfig.read();
+      }
+    }
   }
   
 }
