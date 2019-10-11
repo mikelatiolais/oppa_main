@@ -36,6 +36,7 @@ struct switch_obj
 {
   byte current_val;
   bool changed;
+  bool changing;
   unsigned long last_change;
   /* auto_fire_id is the ID of the solenoid which is auto fired when this switch is activated */
   byte auto_fire_id;
