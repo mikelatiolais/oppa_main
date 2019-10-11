@@ -208,6 +208,31 @@ void loop() {
   for(byte i = 0; i < number_of_in_cards; i++) {
     // Get address
     //in_cards[i].address;
+    byte bus = in_cards[i].i2c_bus;
+    byte address = in_cards[i].address;
+    byte inputs;
+    i2c_t3 *i2c_bus;
+    if (bus == 0) {
+      i2c_bus = Wire;
+    } else if (bus == 1) {
+      i2c_bus = Wire1;
+    } else if (bus == 2) {
+      i2c_bus = Wire2;
+    }
+    // Read bank A
+    i2c_bus.beginTransmission(address);
+    i2c_bus.write(0x12); // set MCP23017 memory pointer to GPIOB address
+    i2c_bus.endTransmission();
+    i2c_bus.requestFrom(0x20, 1); // request one byte of data from MCP20317
+    inputs=i2c_bus.read(); // store the incoming byte into "inputs"
+    // Split byte and feed into the appropriate switch objects
+
+    // Read bank B
+    i2c_bus.write(0x13); // set MCP23017 memory pointer to GPIOB address
+    i2c_bus.endTransmission();
+    i2c_bus.requestFrom(0x20, 1); // request one byte of data from MCP20317
+    inputs=i2c_bus.read(); // store the incoming byte into "inputs"
+    // Split byte and feed into the appropriate switch objects
     
   }
    
