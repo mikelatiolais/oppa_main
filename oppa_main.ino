@@ -6,7 +6,7 @@
 #include <WS2812Serial.h>
 
 // Globals set up in SD card config
-struct OPPA_IO in_cards[24];
+struct OPPA_IO *in_cards;
 struct OPPA_IO out_cards[24];
 struct switch_obj switches[384];
 struct solenoid_obj solenoids[384];
@@ -78,7 +78,14 @@ void setup() {
       }
     }
   }
+  in_cards = malloc(number_of_in_cards * sizeof(struct OPPA_IO));
+  out_cards = malloc(number_of_out_cards * sizeof(struct OPPA_IO));
   
+  // Set up in_cards
+
+  // Set up out_cards
+
+  // Set up switches
   
 }
 
