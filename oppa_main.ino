@@ -71,10 +71,13 @@ void setup() {
   myConfig = SD.open("config");
   if(myConfig) {
     int i = 0;
+    fileLine = "";
     while(myConfig.available()) {
       byte lineChar = myConfig.read();
       if(lineChar != '\n') {
-        fileLine[i] = myConfig.read();
+        fileLine.concat(lineChar);
+      } else {
+        // We have a newline, so do something with the old one.
       }
     }
   }
