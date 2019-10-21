@@ -84,6 +84,8 @@ struct oppa_lamp_obj
   unsigned long lighting_timestamp;
 };
 
+String readLine(File myConfig);
+
 /* Serial Protocol */
 /* The protocol is based on the LISY protocol used in MPF */
 /* It will also be extended to allow for communication with pinmame */
@@ -182,21 +184,20 @@ struct oppa_lamp_obj
 
 /* SD Card Format 
  *  
- *  [HEADER]
- *  <COMMA DELIMITED ROW 1>
+ *  <signifier><value string>
+ * 
+ *  inputs are prepended with a ~ signifier
+ *  solenoids are prepended with a ^ signifier
+ *  Any individual vaue will be prepended with !
  *  
  *  Actual data example
- *  INPUT
- *  0,0   (switch #, autofire_id)
- *  1,0
- *  2,0
- *  3,1
- *  SOLENOIDS
- *  0,0  (solenoid #, long firing)
- *  RGB_LAMP
- *  64   (Just the number of lamps)
- *  HEADLESS
- *  1    (headless mode means no MPF controller. Set for testing)
+ *  ~0,0   (switch #, autofire_id)
+ *  ~1,0
+ *  ~2,0
+ *  ~3,1
+ *  ^0,0  (solenoid #, long firing)
+ *  !RGB_LAMPS:64   (Just the number of lamps)
+ *  !HEADLESS:1 (headless mode means no MPF controller. Set for testing)
  */
 
 
