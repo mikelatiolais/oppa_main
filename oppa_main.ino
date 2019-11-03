@@ -6,7 +6,7 @@
 #include <WS2812Serial.h>
 
 // Globals set up in SD card config
-struct OPPA_IO in_cards[24];
+struct OPPA_IO *in_cards;
 struct OPPA_IO out_cards[24];
 struct switch_obj switches[384];
 struct solenoid_obj solenoids[384];
@@ -52,6 +52,7 @@ QueueArray <String> switch_queue;
 File myConfig;
 const int chipSelect = BUILTIN_SDCARD;
 String fileLine;
+String sectionName;
 
 // RGB LED Control
 // FIXME - Rewrite to be allocated at runtime. 
@@ -62,6 +63,20 @@ DMAMEM byte displayMemory[numled*12]; // 12 bytes per LED
 
 WS2812Serial leds(numled, displayMemory, drawingMemory, pin, WS2812_GRB);
 
+String readLine(File myConfig) {
+  // Read until we get a newline and return the value
+  byte done = 0;
+  String line = "";
+  while(myConfig.available()) {
+    char character = myConfig.read();
+    if(character == "\n") {
+      break;
+    } else {
+      line.concat(character);     
+    }
+  }
+  return line;
+}
 
 void setup() {
   // Setup Serial to Main Controller
@@ -71,14 +86,33 @@ void setup() {
   myConfig = SD.open("config");
   if(myConfig) {
     int i = 0;
+    fileLine = "";
+    sectionName = "";
     while(myConfig.available()) {
+      fileLine = readLine(myConfig);
       byte lineChar = myConfig.read();
-      if(lineChar != '\n') {
-        fileLine[i] = myConfig.read();
+      if(lineChar == '~') {
+        // We have a section header
+        // Read the rest of the line until a newline
+        while(
+      } else if(lineChar == '!') {
+        // We have an individual value line
+      } else if(lineChar != '\n') {
+        fileLine.concat(lineChar);
+      } else {
+        // We have a newline, so do something with the old one.
+        // Now, we do an if tree 
       }
     }
   }
+  in_cards = malloc(number_of_in_cards * sizeof(struct OPPA_IO));
+  out_cards = malloc(number_of_out_cards * sizeof(struct OPPA_IO));
   
+  // Set up in_cards
+
+  // Set up out_cards
+
+  // Set up switches
   
 }
 
