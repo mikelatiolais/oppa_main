@@ -7,7 +7,7 @@
 
 // Globals set up in SD card config
 struct OPPA_IO *in_cards;
-struct OPPA_IO out_cards[24];
+struct OPPA_IO *out_cards;
 struct switch_obj switches[384];
 struct solenoid_obj solenoids[384];
 struct simple_lamp_obj simple_lamps[256];
@@ -65,11 +65,10 @@ WS2812Serial leds(numled, displayMemory, drawingMemory, pin, WS2812_GRB);
 
 String readLine(File myConfig) {
   // Read until we get a newline and return the value
-  byte done = 0;
   String line = "";
   while(myConfig.available()) {
     char character = myConfig.read();
-    if(character == "\n") {
+    if(character == '\n') {
       break;
     } else {
       line.concat(character);     
@@ -94,7 +93,6 @@ void setup() {
       if(lineChar == '~') {
         // We have a section header
         // Read the rest of the line until a newline
-        while(
       } else if(lineChar == '!') {
         // We have an individual value line
       } else if(lineChar != '\n') {
@@ -105,8 +103,8 @@ void setup() {
       }
     }
   }
-  in_cards = malloc(number_of_in_cards * sizeof(struct OPPA_IO));
-  out_cards = malloc(number_of_out_cards * sizeof(struct OPPA_IO));
+  in_cards = (struct OPPA_IO*)malloc(number_of_in_cards * sizeof(struct OPPA_IO));
+  out_cards = (struct OPPA_IO*)malloc(number_of_out_cards * sizeof(struct OPPA_IO));
   
   // Set up in_cards
 
@@ -253,7 +251,7 @@ void loop() {
       i2c_bus = &Wire;
     } else if (bus == 1) {
       i2c_bus = &Wire1;
-    } else if (bus == 2) {
+    } else {
       i2c_bus = &Wire2;
     }
     // Read bank A
