@@ -45,8 +45,8 @@ bool solenoids_enabled = false;
 // Used to enable/disable the flippers
 bool flippers_enabled = false;
 
-// create a queue of strings
-QueueArray <String> switch_queue;
+// create a queue of bytes
+QueueArray <byte> switch_queue;
 
 // Config file
 File myConfig;
@@ -103,12 +103,12 @@ void setup() {
       }
     }
   }
-  in_cards = (struct OPPA_IO*)malloc(number_of_in_cards * sizeof(struct OPPA_IO));
-  out_cards = (struct OPPA_IO*)malloc(number_of_out_cards * sizeof(struct OPPA_IO));
-  
-  // Set up in_cards
 
+  // Set up in_cards
+  in_cards = (struct OPPA_IO*)malloc(number_of_in_cards * sizeof(struct OPPA_IO));
+  
   // Set up out_cards
+  out_cards = (struct OPPA_IO*)malloc(number_of_out_cards * sizeof(struct OPPA_IO));
 
   // Set up switches
   
@@ -226,6 +226,15 @@ void loop() {
         payload = Serial.read();
         Serial.print(switches[payload].current_val);
         break; 
+      case GET_CHANGED_SWITCHES:
+        // Pull the top of the FIFO queue and return it. 
+        // The value is the index of the switch.
+        // The last possible value, 255, is the null return value. 
+        if (!switch_queue.isEmpty()) {
+          Serial.print(switch_queue.pop());
+        } else {
+          Serial.print(255);
+        }
       case INIT_RESET:
         // Initialize/Reset board
         reset_board();
