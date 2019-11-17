@@ -254,7 +254,6 @@ void loop() {
     byte bus = in_cards[i].i2c_bus;
     byte address = in_cards[i].address;
     byte inputs;
-    byte bank = 0;
     struct i2c_t3 *i2c_bus;
     if (bus == 0) {
       i2c_bus = &Wire;
@@ -264,63 +263,39 @@ void loop() {
       i2c_bus = &Wire2;
     }
     // Read bank A
-    i2c_bus->beginTransmission(address);
-    i2c_bus->write(0x12); // set MCP23017 memory pointer to GPIOB address
-    i2c_bus->endTransmission();
-    i2c_bus->requestFrom(0x20, 1); // request one byte of data from MCP20317
-    inputs=i2c_bus->read(); // store the incoming byte into "inputs"
-    // Split byte and feed into the appropriate switch objects
-    for (int bitPosition = 0; bitPosition < 8; bitPosition++) {
-      byte bitValue = bitRead(inputs, bitPosition);
-      byte switchNumber = (i * 16) + (bank * 8) + bitPosition; 
-      // Look at the currnet value of the switch
-      if (switches[switchNumber].changing == true && switches[switchNumber].current_val != bitValue && (millis() - switches[switchNumber].last_change) >= default_switch_debounce_time) {
-        // The switch has passed the debounce time and it's still changed
-        switches[switchNumber].changed = true;
-        switches[switchNumber].changing = false;
-        switches[switchNumber].current_val = bitValue;
-        switches[switchNumber].last_change = 0;
-      } else if (switches[switchNumber].changing == true && switches[switchNumber].current_val == bitValue && (millis() - switches[switchNumber].last_change) >= default_switch_debounce_time) {
-        // The switch has passed the debounce time and it's back to the original value
-        switches[switchNumber].changed = false;
-        switches[switchNumber].changing = false;
-        switches[switchNumber].last_change = 0;
-      } else if (switches[switchNumber].current_val != bitValue && switches[switchNumber].changing == false) {
-        // The switch is now showing a possible change
-        switches[switchNumber].changing = true;
-        switches[switchNumber].changed = false;
-        switches[switchNumber].last_change = millis();
+    for (int bank = 0; bank < 2; bank++) {
+      i2c_bus->beginTransmission(address);
+      if ( bank == 0 ) {
+        i2c_bus->write(0x12); // set MCP23017 memory pointer to GPIOB address
+      } else {
+        i2c_bus->write(0x13); // set MCP23017 memory pointer to GPIOB address
       }
-    }
-
-
-    // Read bank B
-    bank = 1;
-    i2c_bus->write(0x13); // set MCP23017 memory pointer to GPIOB address
-    i2c_bus->endTransmission();
-    i2c_bus->requestFrom(0x20, 1); // request one byte of data from MCP20317
-    inputs=i2c_bus->read(); // store the incoming byte into "inputs"
-    // Split byte and feed into the appropriate switch objects
-    for (int bitPosition = 0; bitPosition < 8; bitPosition++) {
-      byte bitValue = bitRead(inputs, bitPosition);
-      byte switchNumber = (i * 16) + (bank * 8) + bitPosition; 
-      // Look at the currnet value of the switch
-      if (switches[switchNumber].changing == true && switches[switchNumber].current_val != bitValue && (millis() - switches[switchNumber].last_change) >= default_switch_debounce_time) {
-        // The switch has passed the debounce time and it's still changed
-        switches[switchNumber].changed = true;
-        switches[switchNumber].changing = false;
-        switches[switchNumber].current_val = bitValue;
-        switches[switchNumber].last_change = 0;
-      } else if (switches[switchNumber].changing == true && switches[switchNumber].current_val == bitValue && (millis() - switches[switchNumber].last_change) >= default_switch_debounce_time) {
-        // The switch has passed the debounce time and it's back to the original value
-        switches[switchNumber].changed = false;
-        switches[switchNumber].changing = false;
-        switches[switchNumber].last_change = 0;
-      } else if (switches[switchNumber].current_val != bitValue && switches[switchNumber].changing == false) {
-        // The switch is now showing a possible change
-        switches[switchNumber].changing = true;
-        switches[switchNumber].changed = false;
-        switches[switchNumber].last_change = millis();
+    
+      i2c_bus->endTransmission();
+      i2c_bus->requestFrom(0x20, 1); // request one byte of data from MCP20317
+      inputs=i2c_bus->read(); // store the incoming byte into "inputs"
+      // Split byte and feed into the appropriate switch objects
+      for (int bitPosition = 0; bitPosition < 8; bitPosition++) {
+        byte bitValue = bitRead(inputs, bitPosition);
+        byte switchNumber = (i * 16) + (bank * 8) + bitPosition; 
+        // Look at the currnet value of the switch
+        if (switches[switchNumber].changing == true && switches[switchNumber].current_val != bitValue && (millis() - switches[switchNumber].last_change) >= default_switch_debounce_time) {
+          // The switch has passed the debounce time and it's still changed
+          switches[switchNumber].changed = true;
+          switches[switchNumber].changing = false;
+          switches[switchNumber].current_val = bitValue;
+          switches[switchNumber].last_change = 0;
+        } else if (switches[switchNumber].changing == true && switches[switchNumber].current_val == bitValue && (millis() - switches[switchNumber].last_change) >= default_switch_debounce_time) {
+          // The switch has passed the debounce time and it's back to the original value
+          switches[switchNumber].changed = false;
+          switches[switchNumber].changing = false;
+          switches[switchNumber].last_change = 0;
+        } else if (switches[switchNumber].current_val != bitValue && switches[switchNumber].changing == false) {
+          // The switch is now showing a possible change
+          switches[switchNumber].changing = true;
+          switches[switchNumber].changed = false;
+          switches[switchNumber].last_change = millis();
+        }
       }
     }
     
